@@ -1,36 +1,29 @@
-import { StyleSheet } from "react-native";
+/**
+ * @name IndexTab
+ * @description
+ * @author darcrand
+ */
 
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
+import { http } from '@/utils/http'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { Text, View } from 'react-native'
 
-export default function TabOneScreen() {
+export default function IndexTab() {
+  const { data } = useQuery({
+    queryKey: ['post', 'pages'],
+    queryFn: () => http.get('/api/post').then((res) => res.data),
+  })
+
+  useEffect(() => {
+    console.log('data ===>\n', data)
+  }, [data])
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <Text className="text-rose-500">tailwind css</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
-  );
+    <>
+      <View>
+        <Text>Index</Text>
+      </View>
+    </>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
