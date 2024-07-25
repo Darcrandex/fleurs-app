@@ -1,0 +1,18 @@
+import { http } from '@/utils/http'
+
+export const authService = {
+  login: async (data: Pick<API.UserSchema, 'email' | 'password'>) => {
+    const res = await http.post<{ token: string }>('/api/auth/login', data)
+    return res.data
+  },
+
+  signUp: async (data: Pick<API.UserSchema, 'email' | 'password'>) => {
+    const res = await http.post('/api/auth/sign', data)
+    return res.data
+  },
+
+  profile: async () => {
+    const res = await http.get<Omit<API.UserSchema, 'password'>>('/api/auth/profile')
+    return res.data
+  },
+}
