@@ -1,6 +1,6 @@
 /**
- * @name IndexTab
- * @description
+ * @name Find
+ * @description 发现（tab）
  * @author darcrand
  */
 
@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'expo-router'
 import { Text, View } from 'react-native'
 
-export default function IndexTab() {
+export default function Find() {
   const { data } = useQuery({
     queryKey: ['post', 'pages'],
     queryFn: () => postService.pages(),
