@@ -8,16 +8,16 @@ import { categoryService } from '@/services/category'
 import { postService } from '@/services/post'
 import { sleep } from '@/utils/common'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'expo-router'
 import { useCallback, useMemo, useState } from 'react'
-import { Dimensions, Image, Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { Dimensions, Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native'
+
+import PostGridItem from '@/components/PostGridItem'
 
 const ALL_CATEGORY_ID = -1
 const COLUMN_COUNT = 2
 const SPACING = 16
 
 export default function Find() {
-  const router = useRouter()
   const { data: categories } = useQuery({
     queryKey: ['category', 'all'],
     queryFn: () => categoryService.all(),
@@ -89,19 +89,9 @@ export default function Find() {
             {cols.map((c) => (
               <View key={c.id} style={{ marginHorizontal: 0.5 * SPACING }} className='space-y-4'>
                 {c.items.map((v) => (
-                  <Pressable
-                    key={v.id}
-                    className='rounded-md bg-white shadow-sm'
-                    onPress={() => router.push(`/post/${v.id}`)}
-                  >
-                    <Image
-                      source={{ uri: `${v.coverUrl}` }}
-                      style={{ width: v.imgWidth, height: v.imgHeight }}
-                      className='rounded-t-md bg-gray-300'
-                    />
-
-                    <Text className='truncate p-2 text-gray-600'>{v.title}</Text>
-                  </Pressable>
+                  <View key={v.id}>
+                    <PostGridItem data={v} />
+                  </View>
                 ))}
               </View>
             ))}
