@@ -1,6 +1,4 @@
-import { useColorScheme } from '@/components/useColorScheme'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
@@ -53,21 +51,16 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme()
-
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+        <Stack>
+          <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
 
-            {/* 弹框类路由 */}
-            <Stack.Screen name='modal' options={{ presentation: 'modal' }} />
-            <Stack.Screen name='login-modal' options={{ presentation: 'modal' }} />
-            <Stack.Screen name='favorite-modal' options={{ presentation: 'modal' }} />
-          </Stack>
-        </ThemeProvider>
+          {/* 弹框类路由 */}
+          <Stack.Screen name='login-modal' options={{ presentation: 'modal' }} />
+          <Stack.Screen name='favorite-modal' options={{ presentation: 'modal' }} />
+        </Stack>
       </QueryClientProvider>
     </>
   )

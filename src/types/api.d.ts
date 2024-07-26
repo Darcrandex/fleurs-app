@@ -35,4 +35,9 @@ declare namespace API {
     posts: PostShema[]
     likes: LikeSchema[]
   }
+
+  type CategorySchema = {
+    id: number
+    name: string
+  }
 }
