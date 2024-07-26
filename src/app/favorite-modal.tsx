@@ -65,7 +65,7 @@ export default function FavoriteModal() {
 
         <View className='space-y-2'>
           {allFavorites?.map((v) => (
-            <Pressable key={v.id} className='block m-2 p-2' onPress={() => onToggle(v.id)}>
+            <Pressable key={v.id} className='m-2 block p-2' onPress={() => onToggle(v.id)}>
               <Text className={v.id === favoriteId ? 'text-rose-500' : 'text-gray-800'}>{v.name}</Text>
             </Pressable>
           ))}
@@ -76,7 +76,7 @@ export default function FavoriteModal() {
           <Button title='create' onPress={() => createFavorite.mutate(favoriteName)}></Button>
         </View>
 
-        <View className='flex flex-row items-center justify-center mt-10 space-x-2'>
+        <View className='mt-10 flex flex-row items-center justify-center space-x-2'>
           <Button title='cancel' onPress={() => router.canGoBack() && router.back()}></Button>
           <Button title='submit' onPress={onSubmit}></Button>
         </View>

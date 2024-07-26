@@ -22,7 +22,7 @@ declare namespace API {
     id: number
     name: string
     userId: number
-    posts: Array<{ postId: number; favoriteId: number; post?: PostShema }>
+    posts: { postId: number; favoriteId: number; post?: PostShema }[]
   }
 
   type UserSchema = {

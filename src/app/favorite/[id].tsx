@@ -32,11 +32,7 @@ export default function FavoriteDetail() {
 
       <Text>id: {id}</Text>
 
-      <View>
-        {data?.posts?.map((v) => (
-          <Text key={v.postId}>{v.post?.title}</Text>
-        ))}
-      </View>
+      <View>{data?.posts?.map((v) => <Text key={v.postId}>{v.post?.title}</Text>)}</View>
 
       <Button title='remove' onPress={() => removeMutation.mutate()}></Button>
     </>

@@ -44,12 +44,12 @@ export default function LoginModal() {
   return (
     <>
       <View>
-        <Text className='text-3xl text-center'>Login</Text>
+        <Text className='text-center text-3xl'>Login</Text>
 
         <View>
           <Text>email</Text>
           <TextInput
-            className='border m-2'
+            className='m-2 border'
             textContentType='emailAddress'
             value={formData.email}
             placeholder='email'
@@ -57,7 +57,7 @@ export default function LoginModal() {
           />
           <Text>password</Text>
           <TextInput
-            className='border m-2'
+            className='m-2 border'
             textContentType='password'
             value={formData.password}
             placeholder='password'

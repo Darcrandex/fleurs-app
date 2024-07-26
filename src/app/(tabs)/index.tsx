@@ -18,7 +18,7 @@ export default function IndexTab() {
   return (
     <>
       <View>
-        <Text>post list</Text>
+        <Text className='m-3 border text-3xl'>post list</Text>
 
         {data?.records?.map((v) => (
           <View key={v.id} className='m-2'>
