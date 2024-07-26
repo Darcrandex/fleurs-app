@@ -10,6 +10,10 @@ declare namespace API {
     id: number
     title: string
     content: string
+    coverUrl: string
+    coverWidth: number
+    coverHeight: number
+    coverAspectRatio: number
   }
 
   type LikeSchema = {

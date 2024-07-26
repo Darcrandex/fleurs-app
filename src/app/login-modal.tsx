@@ -1,6 +1,6 @@
 /**
  * @name LoginModal
- * @description
+ * @description 全局登录弹框
  * @author darcrand
  */
 

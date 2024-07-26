@@ -6,7 +6,7 @@ export const postService = {
     return res.data
   },
 
-  pages: async (params?: { page?: string; pageSize?: string; keyword?: string; categoryId?: string }) => {
+  pages: async (params?: { page?: number; pageSize?: number; keyword?: string; categoryId?: number }) => {
     const res = await http.get<API.PageData<API.PostShema>>('/api/post', { params })
     return res.data
   },

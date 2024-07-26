@@ -1,6 +1,6 @@
 /**
  * @name FavoriteModal
- * @description
+ * @description 收藏帖子到指定的收藏夹（单个）
  * @author darcrand
  */
 
