@@ -4,14 +4,13 @@
  * @author darcrand
  */
 
+import PostGridItem from '@/components/PostGridItem'
 import { categoryService } from '@/services/category'
 import { postService } from '@/services/post'
-import { sleep } from '@/utils/common'
+import { cls } from '@/utils/cls'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo, useState } from 'react'
 import { Dimensions, Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native'
-
-import PostGridItem from '@/components/PostGridItem'
 
 const ALL_CATEGORY_ID = -1
 const COLUMN_COUNT = 2
@@ -28,7 +27,6 @@ export default function Find() {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['post', 'pages', query],
     queryFn: async () => {
-      await sleep(2000)
       return postService.pages({
         ...query,
         categoryId: query.categoryId === ALL_CATEGORY_ID ? undefined : query.categoryId,
@@ -71,10 +69,10 @@ export default function Find() {
             {categories?.map((v) => (
               <Pressable
                 key={v.id}
-                className='m-2 rounded-full bg-gray-950 px-3 py-1 text-sm'
+                className={cls('m-2 rounded-full px-3 py-1 text-sm', query.categoryId === v.id && 'bg-gray-900')}
                 onPress={() => setQuery({ ...query, categoryId: v.id, page: 1 })}
               >
-                <Text className='text-white'>{v.name}</Text>
+                <Text className={query.categoryId === v.id ? 'text-white' : 'text-gray-900'}>{v.name}</Text>
               </Pressable>
             ))}
           </ScrollView>

@@ -6,6 +6,11 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
+
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false, gcTime: 5 * 60 * 1000, staleTime: 60 * 1000 } },
 
@@ -58,7 +63,7 @@ function RootLayoutNav() {
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
 
           {/* 弹框类路由 */}
-          <Stack.Screen name='login-modal' options={{ presentation: 'modal' }} />
+          {/* <Stack.Screen name='login-modal' options={{ presentation: 'modal' }} /> */}
           <Stack.Screen name='favorite-modal' options={{ presentation: 'modal' }} />
         </Stack>
       </QueryClientProvider>

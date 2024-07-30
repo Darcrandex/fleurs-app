@@ -14,6 +14,11 @@ declare namespace API {
     coverWidth: number
     coverHeight: number
     coverAspectRatio: number
+    coverThumbnail: string
+
+    authorId: number
+    author: { name: string; avatar: string }
+    createdAt: string
   }
 
   type LikeSchema = {
@@ -38,6 +43,7 @@ declare namespace API {
     name: string
     posts: PostShema[]
     likes: LikeSchema[]
+    favorites: { id: number; name: string }[]
   }
 
   type CategorySchema = {

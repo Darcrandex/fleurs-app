@@ -22,7 +22,7 @@ export default function TabLayout() {
               key={t.href}
               className={cls(
                 'flex flex-1 flex-col items-center justify-center p-2',
-                pathname === t.path ? 'opacity-100' : 'opacity-50',
+                pathname === t.path ? 'opacity-100' : 'opacity-25',
               )}
               onPress={() => tabBarProps.navigation.navigate(t.href)}
             >

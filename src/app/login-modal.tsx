@@ -4,18 +4,22 @@
  * @author darcrand
  */
 
-import { TOKEN_KEY } from '@/constants/common'
+import { useNavigationOptions } from '@/hooks/useNavigationOptions'
 import { authService } from '@/services/auth'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useToken } from '@/stores/useToken'
+import { AntDesign } from '@expo/vector-icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { Button, Text, TextInput, View } from 'react-native'
+import { Pressable, Text, TextInput, View } from 'react-native'
 import CryptoJS from 'react-native-crypto-js'
 
 export default function LoginModal() {
+  useNavigationOptions({ headerShown: false, presentation: 'modal' })
+
   const router = useRouter()
   const queryClient = useQueryClient()
+  const [, setToken] = useToken()
 
   const [formData, setFormData] = useState({
     email: '',
@@ -26,9 +30,9 @@ export default function LoginModal() {
     mutationFn: async (values: Pick<API.UserSchema, 'email' | 'password'>) => authService.login(values),
 
     onSuccess: async (data) => {
-      await AsyncStorage.setItem(TOKEN_KEY, data.token)
+      await setToken(data.token)
       router.canGoBack() && router.back()
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.invalidateQueries()
     },
   })
 
@@ -43,29 +47,39 @@ export default function LoginModal() {
 
   return (
     <>
-      <View>
-        <Text className='text-center text-3xl'>Login</Text>
+      <View className='my-4 flex flex-row items-center justify-between'>
+        <View className='w-12'></View>
+        <Text className='text-center text-lg'>login</Text>
+        <Pressable className='w-12 p-2' onPress={() => router.back()}>
+          <AntDesign name='close' size={20} color='black' />
+        </Pressable>
+      </View>
 
-        <View>
-          <Text>email</Text>
-          <TextInput
-            className='m-2 border'
-            textContentType='emailAddress'
-            value={formData.email}
-            placeholder='email'
-            onChangeText={(text) => setFormData({ ...formData, email: text })}
-          />
-          <Text>password</Text>
-          <TextInput
-            className='m-2 border'
-            textContentType='password'
-            value={formData.password}
-            placeholder='password'
-            onChangeText={(text) => setFormData({ ...formData, password: text })}
-          />
+      <Text className='my-4 text-center text-gray-400'>fleurs account login</Text>
 
-          <Button title='Login' onPress={onSubmit}></Button>
-        </View>
+      <View className='m-4'>
+        <TextInput
+          className='my-2 rounded bg-gray-200 p-2'
+          textContentType='emailAddress'
+          value={formData.email}
+          placeholder='email'
+          maxLength={20}
+          onChangeText={(text) => setFormData({ ...formData, email: text })}
+        />
+
+        <TextInput
+          className='my-2 rounded bg-gray-200 p-2'
+          textContentType='password'
+          value={formData.password}
+          placeholder='password'
+          secureTextEntry
+          maxLength={20}
+          onChangeText={(text) => setFormData({ ...formData, password: text })}
+        />
+
+        <Pressable className='my-2 rounded bg-violet-500 p-2' onPress={onSubmit}>
+          <Text className='text-center text-white'>Login</Text>
+        </Pressable>
       </View>
     </>
   )
