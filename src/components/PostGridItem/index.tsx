@@ -11,6 +11,7 @@ import { Pressable, Text, View } from 'react-native'
 
 export type PostGridItemProps = {
   data: API.PostShema & { imgWidth: number; imgHeight: number }
+  showAuthor?: boolean
 }
 
 export default function PostGridItem(props: PostGridItemProps) {
@@ -28,21 +29,26 @@ export default function PostGridItem(props: PostGridItemProps) {
         placeholder={{ blurhash: IMAGE_BLURHASH }}
         transition={500}
         cachePolicy='memory-disk'
-        className='mb-2 rounded-t-sm'
+        className='rounded-t-sm'
         style={{ width: props.data.imgWidth, height: props.data.imgHeight }}
       />
 
-      <Text className='mx-2 truncate text-xs text-gray-600'>{props.data.title}</Text>
+      <View className='space-y-2 p-2'>
+        <Text className='truncate text-xs text-gray-600'>{props.data.title}</Text>
 
-      <View className='m-2 flex flex-row items-center'>
-        <Image
-          className='h-6 w-6 rounded-full'
-          source={props.data.author.avatar}
-          placeholder={{ blurhash: IMAGE_BLURHASH }}
-          cachePolicy='memory-disk'
-        />
+        {props.showAuthor !== false && (
+          <View className='flex flex-row items-center'>
+            <Image
+              className='h-6 w-6 rounded-full'
+              source={props.data.author.avatar}
+              placeholder={{ blurhash: IMAGE_BLURHASH }}
+              transition={500}
+              cachePolicy='memory-disk'
+            />
 
-        <Text className='ml-2 truncate text-xs'>{props.data.author.name}</Text>
+            <Text className='ml-2 truncate text-xs'>{props.data.author.name}</Text>
+          </View>
+        )}
       </View>
     </Pressable>
   )

@@ -25,6 +25,7 @@ declare namespace API {
     id: number
     userId: number
     postId: number
+    post?: PostShema
   }
 
   type FavoriteSchema = {
@@ -41,9 +42,12 @@ declare namespace API {
     avatar: any
     role: string
     name: string
-    posts: PostShema[]
-    likes: LikeSchema[]
-    favorites: { id: number; name: string }[]
+  }
+
+  type UserProfileSchema = UserSchema & {
+    postCount: number
+    likeCount: number
+    favoriteCount: number
   }
 
   type CategorySchema = {

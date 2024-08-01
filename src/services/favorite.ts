@@ -1,9 +1,21 @@
 import { http } from '@/utils/http'
 
-// 当前用户 收藏夹
 export const favoriteService = {
-  all: async () => {
-    const res = await http.get<API.FavoriteSchema[]>('/api/favorite')
+  // 当前用户收藏夹
+  pages: async (params?: { page?: number; pageSize?: number; keyword?: string }) => {
+    const res = await http.get<API.PageData<API.FavoriteSchema>>('/api/auth/favorite', { params })
+    return res.data
+  },
+
+  // 判断是否收藏过文章
+  status: async (postId: number) => {
+    const res = await http.get<{ favorited: boolean }>('/api/auth/favorite/status', { params: { postId } })
+    return res.data
+  },
+
+  // 收藏（取消收藏）文章
+  toggle: async (data: { favoriteId?: number; postId: number }) => {
+    const res = await http.post('/api/auth/favorite', data)
     return res.data
   },
 

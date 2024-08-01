@@ -1,14 +1,13 @@
+import UIconButton from '@/ui/UIconButton'
 import { cls } from '@/utils/cls'
-import { AntDesign } from '@expo/vector-icons'
 import { Tabs, usePathname } from 'expo-router'
 import React from 'react'
 import { Pressable, Text, View } from 'react-native'
-import { gray } from 'tailwindcss/colors'
 
 const tabs = [
-  { path: '/', href: 'index', title: '发现', icon: <AntDesign name='search1' size={24} color={gray[900]} /> },
-  { path: '/search', href: 'search', title: '搜索', icon: <AntDesign name='find' size={24} color={gray[900]} /> },
-  { path: '/mine', href: 'mine', title: '我的', icon: <AntDesign name='user' size={24} color={gray[900]} /> },
+  { path: '/', href: 'index', title: '发现', icon: <UIconButton icon='search1' /> },
+  { path: '/search', href: 'search', title: '搜索', icon: <UIconButton icon='find' /> },
+  { path: '/mine', href: 'mine', title: '我的', icon: <UIconButton icon='user' /> },
 ]
 
 export default function TabLayout() {

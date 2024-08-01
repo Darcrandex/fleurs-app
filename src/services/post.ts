@@ -6,18 +6,16 @@ export const postService = {
     return res.data
   },
 
-  pages: async (params?: { page?: number; pageSize?: number; keyword?: string; categoryId?: number }) => {
+  pages: async (params?: {
+    page?: number
+    pageSize?: number
+    keyword?: string
+    categoryId?: number
+
+    // 这个字段只用于查询用户的收藏夹中的文章
+    favoriteId?: number
+  }) => {
     const res = await http.get<API.PageData<API.PostShema>>('/api/post', { params })
-    return res.data
-  },
-
-  like: async (id: number) => {
-    const res = await http.post(`/api/post/${id}/like`)
-    return res.data
-  },
-
-  favorite: async (postId: number, favoriteId?: number) => {
-    const res = await http.post(`/api/post/${postId}/favorite`, { favoriteId })
     return res.data
   },
 }

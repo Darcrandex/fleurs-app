@@ -61,10 +61,6 @@ function RootLayoutNav() {
       <QueryClientProvider client={queryClient}>
         <Stack>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-
-          {/* 弹框类路由 */}
-          {/* <Stack.Screen name='login-modal' options={{ presentation: 'modal' }} /> */}
-          <Stack.Screen name='favorite-modal' options={{ presentation: 'modal' }} />
         </Stack>
       </QueryClientProvider>
     </>

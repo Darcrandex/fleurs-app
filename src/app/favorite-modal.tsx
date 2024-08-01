@@ -4,26 +4,35 @@
  * @author darcrand
  */
 
+import ModalHeader from '@/components/ModalHeader'
+import { useNavigationOptions } from '@/hooks/useNavigationOptions'
 import { favoriteService } from '@/services/favorite'
-import { postService } from '@/services/post'
+import UButton from '@/ui/UButton'
+import { cls } from '@/utils/cls'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { useEffect, useState } from 'react'
-import { Button, Pressable, Text, TextInput, View } from 'react-native'
+import { useEffect, useMemo, useState } from 'react'
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native'
 
 export default function FavoriteModal() {
+  useNavigationOptions({ headerShown: false, presentation: 'modal' })
+
   const router = useRouter()
   const { postId } = useLocalSearchParams<{ postId?: string }>()
   const queryClient = useQueryClient()
 
   const { data: allFavorites } = useQuery({
     queryKey: ['favorite', 'all'],
-    queryFn: () => favoriteService.all(),
+    queryFn: () => favoriteService.pages({ pageSize: 1000 }), // 简单处理
+    select: (data) => data.records,
   })
 
   const [favoriteName, setFavoriteName] = useState('')
   const createFavorite = useMutation({
-    mutationFn: (name: string) => favoriteService.create({ name }),
+    mutationFn: (name: string) => {
+      if (!name.trim()) throw new Error('收藏夹名称不能为空')
+      return favoriteService.create({ name })
+    },
     onSuccess: () => {
       setFavoriteName('')
       queryClient.invalidateQueries({ queryKey: ['favorite'] })
@@ -32,6 +41,10 @@ export default function FavoriteModal() {
 
   const [favoriteId, setFavoriteId] = useState<number>()
   const onToggle = (id: number) => setFavoriteId((prev) => (prev === id ? undefined : id))
+  const tips = useMemo(() => {
+    const matched = allFavorites?.find((v) => v.id === favoriteId)
+    return matched ? `收藏到【${matched.name}】` : '取消收藏'
+  }, [favoriteId, allFavorites])
 
   useEffect(() => {
     if (allFavorites?.length) {
@@ -43,43 +56,61 @@ export default function FavoriteModal() {
   }, [allFavorites, postId])
 
   const favoriteMutation = useMutation({
-    mutationFn: (data: { postId: number; favoriteId?: number }) => postService.favorite(data.postId, data.favoriteId),
+    mutationFn: (data: { postId: number; favoriteId?: number }) => favoriteService.toggle(data),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['favorite'] })
-      router.back()
+      router.canDismiss() && router.dismiss()
     },
   })
-  const onSubmit = async () => {
-    console.log('ok', {
-      postId: Number(postId),
-      favoriteId,
-    })
 
+  const onSubmit = async () => {
     favoriteMutation.mutateAsync({ postId: Number(postId), favoriteId })
   }
 
   return (
     <>
-      <View>
-        <Text>favorite a post</Text>
+      <ModalHeader title='收藏' message='收藏到指定的收藏夹' />
 
-        <View className='space-y-2'>
+      <View className='m-4 flex flex-row items-stretch'>
+        <TextInput
+          className='flex-1 rounded bg-gray-200 p-2 text-sm'
+          value={favoriteName}
+          onChangeText={setFavoriteName}
+          placeholder='新建收藏夹'
+          maxLength={20}
+        />
+
+        <Pressable
+          className='ml-2 flex items-center justify-center rounded bg-violet-500 px-4'
+          onPress={() => createFavorite.mutate(favoriteName)}
+        >
+          <Text className='text-white'>新建</Text>
+        </Pressable>
+      </View>
+
+      <View className='h-60'>
+        <ScrollView>
           {allFavorites?.map((v) => (
-            <Pressable key={v.id} className='m-2 block p-2' onPress={() => onToggle(v.id)}>
-              <Text className={v.id === favoriteId ? 'text-rose-500' : 'text-gray-800'}>{v.name}</Text>
+            <Pressable
+              key={v.id}
+              className={cls(
+                'mx-4 my-2 block rounded border p-2',
+                v.id === favoriteId ? 'border-violet-500' : 'border-transparent',
+              )}
+              onPress={() => onToggle(v.id)}
+            >
+              <Text className={v.id === favoriteId ? 'text-violet-500' : 'text-gray-800'}>{v.name}</Text>
             </Pressable>
           ))}
-        </View>
+        </ScrollView>
+      </View>
 
-        <View className='flex items-center'>
-          <TextInput className='w-3/4 border p-2 text-lg' value={favoriteName} onChangeText={setFavoriteName} />
-          <Button title='create' onPress={() => createFavorite.mutate(favoriteName)}></Button>
-        </View>
+      <Text className='text-center text-xs text-gray-400'>{tips}</Text>
 
-        <View className='mt-10 flex flex-row items-center justify-center space-x-2'>
-          <Button title='cancel' onPress={() => router.canGoBack() && router.back()}></Button>
-          <Button title='submit' onPress={onSubmit}></Button>
-        </View>
+      <View className='m-4'>
+        <UButton variant='primary' onPress={onSubmit}>
+          确定
+        </UButton>
       </View>
     </>
   )

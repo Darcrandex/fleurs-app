@@ -4,10 +4,10 @@
  * @author darcrand
  */
 
+import ModalHeader from '@/components/ModalHeader'
 import { useNavigationOptions } from '@/hooks/useNavigationOptions'
 import { authService } from '@/services/auth'
-import { useToken } from '@/stores/useToken'
-import { AntDesign } from '@expo/vector-icons'
+import { useSetToken } from '@/stores/useToken'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
@@ -19,7 +19,7 @@ export default function LoginModal() {
 
   const router = useRouter()
   const queryClient = useQueryClient()
-  const [, setToken] = useToken()
+  const setToken = useSetToken()
 
   const [formData, setFormData] = useState({
     email: '',
@@ -31,15 +31,17 @@ export default function LoginModal() {
 
     onSuccess: async (data) => {
       await setToken(data.token)
-      router.canGoBack() && router.back()
+      router.canDismiss() && router.dismiss()
       queryClient.invalidateQueries()
     },
   })
 
   const onSubmit = async () => {
-    console.log('formData', formData)
-
     const { email, password } = formData
+    if (!email || !password) {
+      return
+    }
+
     const encryptedPassword = CryptoJS.AES.encrypt(password, process.env.EXPO_PUBLIC_AES_KEY || '').toString()
 
     await mutateAsync({ email, password: encryptedPassword })
@@ -47,15 +49,7 @@ export default function LoginModal() {
 
   return (
     <>
-      <View className='my-4 flex flex-row items-center justify-between'>
-        <View className='w-12'></View>
-        <Text className='text-center text-lg'>login</Text>
-        <Pressable className='w-12 p-2' onPress={() => router.back()}>
-          <AntDesign name='close' size={20} color='black' />
-        </Pressable>
-      </View>
-
-      <Text className='my-4 text-center text-gray-400'>fleurs account login</Text>
+      <ModalHeader title='登录' message='登录 Fleurs 账号' />
 
       <View className='m-4'>
         <TextInput
@@ -78,7 +72,7 @@ export default function LoginModal() {
         />
 
         <Pressable className='my-2 rounded bg-violet-500 p-2' onPress={onSubmit}>
-          <Text className='text-center text-white'>Login</Text>
+          <Text className='text-center text-white'>登录</Text>
         </Pressable>
       </View>
     </>

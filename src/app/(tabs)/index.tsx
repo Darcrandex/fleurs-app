@@ -5,16 +5,17 @@
  */
 
 import PostGridItem from '@/components/PostGridItem'
+import { LAYOUT_SPACING } from '@/constants/common'
 import { categoryService } from '@/services/category'
 import { postService } from '@/services/post'
+import UEmpty from '@/ui/UEmpty'
 import { cls } from '@/utils/cls'
+import { getPostColumns } from '@/utils/getPostColumns'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo, useState } from 'react'
-import { Dimensions, Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { Pressable, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native'
 
 const ALL_CATEGORY_ID = -1
-const COLUMN_COUNT = 2
-const SPACING = 16
 
 export default function Find() {
   const { data: categories } = useQuery({
@@ -39,27 +40,10 @@ export default function Find() {
     refetch()
   }, [refetch])
 
-  const cols = useMemo(() => {
-    if (!data || !Array.isArray(data.records)) return []
-
-    const winWidth = Dimensions.get('window').width
-    const imgWidth = Number.parseFloat(((winWidth - (1 + COLUMN_COUNT) * SPACING) / COLUMN_COUNT).toFixed(2))
-    const arr: { id: string; items: (API.PostShema & { imgWidth: number; imgHeight: number })[]; height: number }[] =
-      Array(COLUMN_COUNT)
-        .fill(0)
-        .map(() => ({ id: '', items: [], height: 0 }))
-
-    data.records.forEach((v) => {
-      // 获取高度最小的列
-      const targetIdx = arr.reduce((pre, cur, index) => (cur.height < arr[pre].height ? index : pre), 0)
-      const targetCol = arr[targetIdx]
-      const imgHeight = Number.parseFloat((imgWidth / v.coverAspectRatio).toFixed(2))
-      targetCol.items.push({ ...v, imgWidth, imgHeight })
-      targetCol.height += imgHeight
-    })
-
-    return arr.map((g) => ({ ...g, id: Math.random().toString() }))
-  }, [data])
+  const cols = useMemo(
+    () => getPostColumns({ posts: data?.records || [], columnCount: 2, spacing: LAYOUT_SPACING }),
+    [data],
+  )
 
   return (
     <SafeAreaView className='bg-white'>
@@ -83,9 +67,12 @@ export default function Find() {
           className='flex-1 bg-gray-50'
           refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
         >
-          <View className='flex flex-row' style={{ marginHorizontal: 0.5 * SPACING, marginVertical: SPACING }}>
+          <View
+            className='flex flex-row'
+            style={{ marginHorizontal: 0.5 * LAYOUT_SPACING, marginVertical: LAYOUT_SPACING }}
+          >
             {cols.map((c) => (
-              <View key={c.id} style={{ marginHorizontal: 0.5 * SPACING }} className='space-y-4'>
+              <View key={c.id} style={{ marginHorizontal: 0.5 * LAYOUT_SPACING }} className='space-y-4'>
                 {c.items.map((v) => (
                   <View key={v.id}>
                     <PostGridItem data={v} />
@@ -94,6 +81,8 @@ export default function Find() {
               </View>
             ))}
           </View>
+
+          {data?.total === 0 && <UEmpty />}
         </ScrollView>
       </View>
     </SafeAreaView>

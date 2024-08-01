@@ -4,23 +4,23 @@
  * @author darcrand
  */
 
+import FavoriteButton from '@/components/FavoriteButton'
+import LikePostButton from '@/components/LikePostButton'
+import TopHeader from '@/components/TopHeader'
 import { IMAGE_BLURHASH } from '@/constants/common'
 import { useNavigationOptions } from '@/hooks/useNavigationOptions'
-import { useProfile, USER_PROFILE_KEY } from '@/queries/useProfile'
 import { postService } from '@/services/post'
 import { toFixed } from '@/utils/common'
-import { AntDesign } from '@expo/vector-icons'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { Image } from 'expo-image'
-import { router, useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams } from 'expo-router'
 import { useMemo } from 'react'
-import { Dimensions, Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { Dimensions, SafeAreaView, ScrollView, Text, View } from 'react-native'
 
 export default function PostDetail() {
   useNavigationOptions({ headerShown: false })
 
-  const queryClient = useQueryClient()
   const { id } = useLocalSearchParams()
 
   const { data } = useQuery({
@@ -33,34 +33,18 @@ export default function PostDetail() {
     return toFixed(winWidth / (data?.coverAspectRatio || 16 / 9), 2)
   }, [data])
 
-  const userRes = useProfile()
-  const userHasLiked = userRes.data?.likes?.some((v) => v.postId === Number(id))
-
-  const likeMutation = useMutation({
-    mutationFn: () => postService.like(Number(id)),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post', id] })
-      queryClient.invalidateQueries({ queryKey: USER_PROFILE_KEY })
-    },
-  })
-
   return (
     <>
       <SafeAreaView>
         <View className='h-screen'>
-          <View className='flex flex-row items-center'>
-            <Pressable className='mr-auto p-2' onPress={() => router.canGoBack() && router.back()}>
-              <AntDesign name='arrowleft' size={24} color='black' />
-            </Pressable>
-
-            <Pressable className='p-2' onPress={() => likeMutation.mutate()}>
-              <AntDesign name={userHasLiked ? 'heart' : 'hearto'} size={24} color='black' />
-            </Pressable>
-
-            <Pressable className='mr-2 p-2' onPress={() => router.push(`/favorite-modal?postId=${id}`)}>
-              <AntDesign name='star' size={24} color='black' />
-            </Pressable>
-          </View>
+          <TopHeader
+            right={
+              <>
+                <LikePostButton postId={Number(id)} />
+                <FavoriteButton postId={Number(id)} />
+              </>
+            }
+          />
 
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1'>
             <Image

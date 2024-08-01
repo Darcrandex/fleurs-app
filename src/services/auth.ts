@@ -12,7 +12,12 @@ export const authService = {
   },
 
   profile: async () => {
-    const res = await http.get<Omit<API.UserSchema, 'password'>>('/api/auth/profile')
+    const res = await http.get<Omit<API.UserProfileSchema, 'password'>>('/api/auth/profile')
+    return res.data
+  },
+
+  pwd: async (data: { oldPassword: string; newPassword: string }) => {
+    const res = await http.put('/api/auth/pwd', data)
     return res.data
   },
 }

@@ -4,8 +4,23 @@
  * @author darcrand
  */
 
-import { Button } from 'react-native'
+import { cls } from '@/utils/cls'
+import { PropsWithChildren } from 'react'
+import { Pressable, Text } from 'react-native'
 
-export default function UButton() {
-  return <Button title='Button' />
+export type UButtonProps = PropsWithChildren<{
+  variant?: 'default' | 'primary'
+  wrapperClassName?: string
+  onPress?: () => void
+}>
+
+export default function UButton(props: UButtonProps) {
+  return (
+    <Pressable
+      className={cls('rounded px-4 py-2', props.variant === 'primary' && 'bg-violet-500', props.wrapperClassName)}
+      onPress={props.onPress}
+    >
+      <Text className={cls('text-center', props.variant === 'primary' && 'text-white')}>{props.children}</Text>
+    </Pressable>
+  )
 }
