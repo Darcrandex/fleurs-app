@@ -22,7 +22,7 @@ export default function FavoriteButton(props: { postId: number; wrapperClassName
 
   const onPress = useCallback(() => {
     if (isLoggedIn) {
-      router.push(`/favorite-modal?postId=${props.postId}`)
+      router.push(`/post/${props.postId}/favorite`)
     } else {
       router.push('/login')
     }

@@ -11,6 +11,8 @@ export type UDialogProps = PropsWithChildren<{
   open?: boolean
   onClose?: () => void
   onOk?: () => void
+
+  title?: string
 }>
 
 export default function UDialog(props: UDialogProps) {
@@ -20,7 +22,9 @@ export default function UDialog(props: UDialogProps) {
     <Modal animationType='fade' visible={props.open} transparent onRequestClose={props.onClose}>
       <View className='flex h-screen w-screen items-center justify-center bg-black/50'>
         <View className='rounded bg-white' style={{ width: windowWidth * 0.6 }}>
-          <View className='p-4' style={{ minHeight: 100 }}>
+          {!!props.title && <Text className='m-4 text-center font-bold'>{props.title}</Text>}
+
+          <View className='m-4' style={{ minHeight: 100 }}>
             {props.children}
           </View>
 

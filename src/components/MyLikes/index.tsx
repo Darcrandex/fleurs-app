@@ -28,8 +28,6 @@ export default function MyLikes() {
     [data],
   )
 
-  if (!data) return null
-
   return (
     <ScrollView showsVerticalScrollIndicator={false} className='bg-gray-50'>
       <View

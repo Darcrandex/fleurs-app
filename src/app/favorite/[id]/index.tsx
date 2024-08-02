@@ -8,6 +8,7 @@ import PostGridItem from '@/components/PostGridItem'
 import TopHeader from '@/components/TopHeader'
 import { LAYOUT_SPACING } from '@/constants/common'
 import { useNavigationOptions } from '@/hooks/useNavigationOptions'
+import { USER_PROFILE_KEY } from '@/queries/useProfile'
 import { favoriteService } from '@/services/favorite'
 import { postService } from '@/services/post'
 import UDialog from '@/ui/UDialog'
@@ -16,7 +17,7 @@ import { getPostColumns } from '@/utils/getPostColumns'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useMemo, useState } from 'react'
-import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, Text, View } from 'react-native'
 
 export default function FavoriteDetail() {
   useNavigationOptions({ headerShown: false })
@@ -49,26 +50,12 @@ export default function FavoriteDetail() {
   const removeMutation = useMutation({
     mutationFn: () => favoriteService.remove(favoriteId),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: USER_PROFILE_KEY })
       queryClient.invalidateQueries({ queryKey: ['favorite'] })
       queryClient.invalidateQueries({ queryKey: ['post'] })
       router.canDismiss() && router.dismissAll()
     },
   })
-
-  const onRemove = () => {
-    Alert.alert('提示', '确定要删除吗？', [
-      {
-        text: '取消',
-        onPress: () => {},
-      },
-      {
-        text: '删除',
-        onPress: () => {
-          removeMutation.mutate()
-        },
-      },
-    ])
-  }
 
   const [visible, setVisible] = useState(false)
 
@@ -80,7 +67,8 @@ export default function FavoriteDetail() {
             title={data?.name}
             right={
               <>
-                <UIconButton size={20} icon='edit' onPress={() => router.push(`/favorite-edit?id=${favoriteId}`)} />
+                <UIconButton size={20} icon='edit' onPress={() => router.push(`/favorite/${favoriteId}/edit`)} />
+
                 <UIconButton wrapperClassName='pr-4' size={20} icon='delete' onPress={() => setVisible(true)} />
               </>
             }
@@ -105,7 +93,7 @@ export default function FavoriteDetail() {
         </View>
       </SafeAreaView>
 
-      <UDialog open={visible} onClose={() => setVisible(false)} onOk={onRemove}>
+      <UDialog open={visible} onClose={() => setVisible(false)} onOk={() => removeMutation.mutate()}>
         <Text className='text-center'>确定要删除此收藏夹吗？</Text>
       </UDialog>
     </>

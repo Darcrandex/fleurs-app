@@ -7,6 +7,7 @@
 import { IMAGE_BLURHASH } from '@/constants/common'
 import { favoriteService } from '@/services/favorite'
 import { postService } from '@/services/post'
+import UIconButton from '@/ui/UIconButton'
 import { cls } from '@/utils/cls'
 import { useQuery } from '@tanstack/react-query'
 import { Image } from 'expo-image'
@@ -22,6 +23,10 @@ export default function MyFavorites() {
   return (
     <ScrollView showsVerticalScrollIndicator={false} className='bg-gray-50'>
       <View className='m-2 flex flex-row flex-wrap'>
+        <View className='w-1/2 p-2'>
+          <FavoriteCreateCard />
+        </View>
+
         {data?.records?.map((v) => (
           <View key={v.id} className='w-1/2 p-2'>
             <FavoriteCard data={v} />
@@ -73,5 +78,18 @@ function FavoriteCard(props: { data: API.FavoriteSchema; wrapperClassName?: stri
 
       <Text className='truncate p-2 text-xs text-gray-500'>{props.data.name}</Text>
     </Pressable>
+  )
+}
+
+function FavoriteCreateCard() {
+  return (
+    <>
+      <Pressable className={cls('rounded-sm bg-white shadow-sm')} onPress={() => router.push('/favorite/create')}>
+        <View className='mt-2 flex h-48 flex-col items-center justify-center'>
+          <UIconButton icon='plus' size={20} />
+          <Text className='p-2 text-xs text-gray-500'>新建收藏夹</Text>
+        </View>
+      </Pressable>
+    </>
   )
 }

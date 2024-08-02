@@ -6,19 +6,19 @@
 
 import ModalHeader from '@/components/ModalHeader'
 import { useNavigationOptions } from '@/hooks/useNavigationOptions'
+import { USER_PROFILE_KEY } from '@/queries/useProfile'
 import { favoriteService } from '@/services/favorite'
 import UButton from '@/ui/UButton'
 import { cls } from '@/utils/cls'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useLocalSearchParams, useRouter } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useMemo, useState } from 'react'
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native'
 
 export default function FavoriteModal() {
   useNavigationOptions({ headerShown: false, presentation: 'modal' })
 
-  const router = useRouter()
-  const { postId } = useLocalSearchParams<{ postId?: string }>()
+  const { id: postId } = useLocalSearchParams<{ id?: string }>()
   const queryClient = useQueryClient()
 
   const { data: allFavorites } = useQuery({
@@ -36,6 +36,7 @@ export default function FavoriteModal() {
     onSuccess: () => {
       setFavoriteName('')
       queryClient.invalidateQueries({ queryKey: ['favorite'] })
+      queryClient.invalidateQueries({ queryKey: USER_PROFILE_KEY })
     },
   })
 
@@ -59,6 +60,7 @@ export default function FavoriteModal() {
     mutationFn: (data: { postId: number; favoriteId?: number }) => favoriteService.toggle(data),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['favorite'] })
+      queryClient.invalidateQueries({ queryKey: USER_PROFILE_KEY })
       router.canDismiss() && router.dismiss()
     },
   })
