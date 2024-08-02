@@ -16,6 +16,11 @@ export const authService = {
     return res.data
   },
 
+  update: async (data: Pick<API.UserSchema, 'name' | 'avatar'>) => {
+    const res = await http.put('/api/auth/profile', data)
+    return res.data
+  },
+
   pwd: async (data: { oldPassword: string; newPassword: string }) => {
     const res = await http.put('/api/auth/pwd', data)
     return res.data

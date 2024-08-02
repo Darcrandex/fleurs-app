@@ -13,7 +13,7 @@ import { cls } from '@/utils/cls'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useMemo, useState } from 'react'
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native'
+import { Pressable, SafeAreaView, ScrollView, Text, TextInput, View } from 'react-native'
 
 export default function FavoriteModal() {
   useNavigationOptions({ headerShown: false, presentation: 'modal' })
@@ -70,12 +70,12 @@ export default function FavoriteModal() {
   }
 
   return (
-    <>
+    <SafeAreaView className='h-full bg-white'>
       <ModalHeader title='收藏' message='收藏到指定的收藏夹' />
 
       <View className='m-4 flex flex-row items-stretch'>
         <TextInput
-          className='flex-1 rounded bg-gray-200 p-2 text-sm'
+          className='flex-1 rounded bg-gray-100 p-2 text-sm'
           value={favoriteName}
           onChangeText={setFavoriteName}
           placeholder='新建收藏夹'
@@ -114,6 +114,6 @@ export default function FavoriteModal() {
           确定
         </UButton>
       </View>
-    </>
+    </SafeAreaView>
   )
 }

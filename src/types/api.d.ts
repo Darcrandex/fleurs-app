@@ -39,7 +39,7 @@ declare namespace API {
     id: number
     email: string
     password: string
-    avatar: any
+    avatar: string
     role: string
     name: string
   }

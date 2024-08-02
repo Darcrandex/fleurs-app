@@ -11,7 +11,7 @@ import UButton from '@/ui/UButton'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { Text, TextInput } from 'react-native'
+import { SafeAreaView, TextInput } from 'react-native'
 
 export default function FavoriteEdit() {
   useNavigationOptions({ headerShown: false, presentation: 'modal' })
@@ -36,20 +36,20 @@ export default function FavoriteEdit() {
   })
 
   return (
-    <>
+    <SafeAreaView className='h-full bg-white'>
       <ModalHeader title='收藏夹编辑' />
-      <Text>FavoriteEdit</Text>
-      <Text>{data?.name}</Text>
 
       <TextInput
-        className='m-2 rounded bg-gray-200 p-2 text-sm'
+        className='m-4 rounded bg-gray-100 p-2 text-sm'
         placeholder='收藏夹名称'
         maxLength={20}
         value={name}
         onChangeText={setName}
       />
 
-      <UButton onPress={() => updateMutation.mutate(name)}>确定</UButton>
-    </>
+      <UButton variant='primary' wrapperClassName='mt-4 mx-4' onPress={() => updateMutation.mutate(name)}>
+        确定
+      </UButton>
+    </SafeAreaView>
   )
 }

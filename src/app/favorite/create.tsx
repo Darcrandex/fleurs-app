@@ -12,7 +12,7 @@ import UButton from '@/ui/UButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import { useState } from 'react'
-import { TextInput } from 'react-native'
+import { SafeAreaView, TextInput } from 'react-native'
 
 export default function FavoriteCreate() {
   useNavigationOptions({ headerShown: false, presentation: 'modal' })
@@ -29,11 +29,11 @@ export default function FavoriteCreate() {
   })
 
   return (
-    <>
+    <SafeAreaView className='h-full bg-white'>
       <ModalHeader title='新建收藏夹' />
 
       <TextInput
-        className='m-4 rounded bg-gray-200 p-2 text-sm'
+        className='m-4 rounded bg-gray-100 p-2 text-sm'
         placeholder='收藏夹名称'
         maxLength={20}
         value={name}
@@ -43,6 +43,6 @@ export default function FavoriteCreate() {
       <UButton variant='primary' wrapperClassName='mt-4 mx-4' onPress={() => updateMutation.mutate(name)}>
         确定
       </UButton>
-    </>
+    </SafeAreaView>
   )
 }

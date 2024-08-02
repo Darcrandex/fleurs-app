@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const http = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
-  timeout: 10000,
+  timeout: 60 * 1000,
 })
 
 http.interceptors.request.use(async (config) => {

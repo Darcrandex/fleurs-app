@@ -5,8 +5,8 @@ import React from 'react'
 import { Pressable, Text, View } from 'react-native'
 
 const tabs = [
-  { path: '/', href: 'index', title: '发现', icon: <UIconButton icon='search1' /> },
-  { path: '/search', href: 'search', title: '搜索', icon: <UIconButton icon='find' /> },
+  { path: '/', href: 'index', title: '发现', icon: <UIconButton icon='find' /> },
+  { path: '/search', href: 'search', title: '搜索', icon: <UIconButton icon='search1' /> },
   { path: '/mine', href: 'mine', title: '我的', icon: <UIconButton icon='user' /> },
 ]
 

@@ -59,7 +59,7 @@ export default function UpdatePassword() {
 
       <View className='m-4'>
         <TextInput
-          className='my-2 rounded bg-gray-200 p-2'
+          className='my-2 rounded bg-gray-100 p-2'
           textContentType='password'
           value={formData.oldPassword}
           placeholder='旧密码'
@@ -69,7 +69,7 @@ export default function UpdatePassword() {
         />
 
         <TextInput
-          className='my-2 rounded bg-gray-200 p-2'
+          className='my-2 rounded bg-gray-100 p-2'
           textContentType='password'
           value={formData.newPassword}
           placeholder='新密码'
@@ -79,7 +79,7 @@ export default function UpdatePassword() {
         />
 
         <TextInput
-          className='my-2 rounded bg-gray-200 p-2'
+          className='my-2 rounded bg-gray-100 p-2'
           textContentType='password'
           value={formData.confirmPassword}
           placeholder='确认新密码'

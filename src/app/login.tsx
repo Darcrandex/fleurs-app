@@ -53,19 +53,19 @@ export default function LoginModal() {
 
       <View className='m-4'>
         <TextInput
-          className='my-2 rounded bg-gray-200 p-2'
+          className='my-2 rounded bg-gray-100 p-2'
           textContentType='emailAddress'
           value={formData.email}
-          placeholder='email'
+          placeholder='邮箱地址'
           maxLength={20}
           onChangeText={(text) => setFormData({ ...formData, email: text })}
         />
 
         <TextInput
-          className='my-2 rounded bg-gray-200 p-2'
+          className='my-2 rounded bg-gray-100 p-2'
           textContentType='password'
           value={formData.password}
-          placeholder='password'
+          placeholder='密码'
           secureTextEntry
           maxLength={20}
           onChangeText={(text) => setFormData({ ...formData, password: text })}
