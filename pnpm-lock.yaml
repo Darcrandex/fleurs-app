@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@erosargsyan/react-native-image-viewing':
+        specifier: ^0.2.31
+        version: 0.2.31(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.8(@babel/core@7.24.9))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@expo/vector-icons':
         specifier: ^14.0.2
         version: 14.0.2
@@ -29,6 +32,9 @@ importers:
       expo:
         specifier: ~51.0.22
         version: 51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.8(@babel/core@7.24.9))
+      expo-file-system:
+        specifier: ^17.0.1
+        version: 17.0.1(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.8(@babel/core@7.24.9)))
       expo-font:
         specifier: ~12.0.9
         version: 12.0.9(expo@51.0.22(@babel/core@7.24.9)(@babel/preset-env@7.24.8(@babel/core@7.24.9)))
@@ -919,6 +925,12 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@erosargsyan/react-native-image-viewing@0.2.31':
+    resolution: {integrity: sha512-+77IqpzCBCB8g1D3pSx9dR6wlHzNOOw+/WOZ3yvXISYKr9FFxMmVwku5wUYVbfM7xUth7BKN9bS3Og+1RbUuYw==}
+    peerDependencies:
+      react: '>=16.11.0'
+      react-native: '>=0.61.3'
 
   '@eslint-community/eslint-utils@4.4.0':
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
@@ -6594,6 +6606,11 @@ snapshots:
       to-fast-properties: 2.0.0
 
   '@bcoe/v8-coverage@0.2.3': {}
+
+  '@erosargsyan/react-native-image-viewing@0.2.31(react-native@0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.8(@babel/core@7.24.9))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+      react-native: 0.74.3(@babel/core@7.24.9)(@babel/preset-env@7.24.8(@babel/core@7.24.9))(@types/react@18.2.79)(react@18.2.0)
 
   '@eslint-community/eslint-utils@4.4.0(eslint@8.57.0)':
     dependencies:

@@ -6,6 +6,7 @@
 
 import FavoriteButton from '@/components/FavoriteButton'
 import LikePostButton from '@/components/LikePostButton'
+import PreviewedImage from '@/components/PreviewedImage'
 import TopHeader from '@/components/TopHeader'
 import { IMAGE_BLURHASH } from '@/constants/common'
 import { useNavigationOptions } from '@/hooks/useNavigationOptions'
@@ -22,7 +23,6 @@ export default function PostDetail() {
   useNavigationOptions({ headerShown: false })
 
   const { id } = useLocalSearchParams()
-
   const { data } = useQuery({
     queryKey: ['post', id],
     queryFn: () => postService.getById(Number(id)),
@@ -35,7 +35,7 @@ export default function PostDetail() {
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView className='bg-white'>
         <View className='h-screen'>
           <TopHeader
             right={
@@ -47,14 +47,11 @@ export default function PostDetail() {
           />
 
           <ScrollView showsVerticalScrollIndicator={false} className='flex-1'>
-            <Image
-              source={data?.coverUrl}
-              contentFit='cover'
-              placeholder={{ blurhash: IMAGE_BLURHASH }}
-              transition={500}
-              cachePolicy='memory-disk'
-              className='w-full'
+            <PreviewedImage
+              url={data?.coverUrl}
+              imageClassName='w-full bg-gray-100'
               style={{ height: imageHeight }}
+              resizeMode='cover'
             />
 
             <View className='m-4 space-y-4'>
