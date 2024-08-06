@@ -38,42 +38,40 @@ export default function Mine() {
   }
 
   return (
-    <SafeAreaView className='bg-white'>
-      <View className='flex h-screen flex-col'>
-        <View className='mx-2 flex flex-row items-start justify-end'>
-          <UIconButton icon='setting' onPress={() => router.push('/settings')} />
-        </View>
-
-        <View className='m-4 flex flex-row items-center'>
-          <Image
-            className='h-16 w-16 rounded-full'
-            source={profile?.avatar}
-            placeholder={{ blurhash: IMAGE_BLURHASH }}
-            cachePolicy='memory-disk'
-          />
-
-          <View className='ml-4'>
-            <Text className='truncate text-lg'>{profile?.name}</Text>
-            <Text className='truncate text-gray-500'>{profile?.email}</Text>
-          </View>
-        </View>
-
-        <View className='m-2 flex flex-row'>
-          {tabs.map((t) => (
-            <Pressable
-              key={t.value}
-              className={cls('mx-2 flex w-1/5 flex-col items-center rounded py-1', tabKey === t.value && 'bg-gray-100')}
-              onPress={() => setTabKey(t.value)}
-            >
-              <Text className='text-sm font-bold'>{t.badge}</Text>
-              <Text className='text-xs text-gray-600'>{t.label}</Text>
-            </Pressable>
-          ))}
-        </View>
-
-        {tabKey === 'likes' && <MyLikes />}
-        {tabKey === 'favorite' && <MyFavorites />}
+    <SafeAreaView className='flex-1 bg-white'>
+      <View className='mx-2 flex flex-row items-start justify-end'>
+        <UIconButton icon='setting' onPress={() => router.push('/settings')} />
       </View>
+
+      <View className='m-4 flex flex-row items-center'>
+        <Image
+          className='h-16 w-16 rounded-full'
+          source={profile?.avatar}
+          placeholder={{ blurhash: IMAGE_BLURHASH }}
+          cachePolicy='memory-disk'
+        />
+
+        <View className='ml-4'>
+          <Text className='truncate text-lg'>{profile?.name}</Text>
+          <Text className='truncate text-gray-500'>{profile?.email}</Text>
+        </View>
+      </View>
+
+      <View className='m-2 flex flex-row'>
+        {tabs.map((t) => (
+          <Pressable
+            key={t.value}
+            className={cls('mx-2 flex w-1/5 flex-col items-center rounded py-1', tabKey === t.value && 'bg-gray-100')}
+            onPress={() => setTabKey(t.value)}
+          >
+            <Text className='text-sm font-bold'>{t.badge}</Text>
+            <Text className='text-xs text-gray-600'>{t.label}</Text>
+          </Pressable>
+        ))}
+      </View>
+
+      {tabKey === 'likes' && <MyLikes />}
+      {tabKey === 'favorite' && <MyFavorites />}
     </SafeAreaView>
   )
 }

@@ -16,6 +16,7 @@ declare namespace API {
     coverAspectRatio: number
     coverThumbnail: string
 
+    tags?: string[]
     authorId: number
     author: { name: string; avatar: string }
     createdAt: string

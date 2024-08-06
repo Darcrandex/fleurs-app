@@ -35,43 +35,48 @@ export default function PostDetail() {
 
   return (
     <>
-      <SafeAreaView className='bg-white'>
-        <View className='h-screen'>
-          <TopHeader
-            right={
-              <>
-                <LikePostButton postId={Number(id)} />
-                <FavoriteButton postId={Number(id)} />
-              </>
-            }
+      <SafeAreaView className='flex-1 bg-white'>
+        <TopHeader
+          right={
+            <>
+              <LikePostButton postId={Number(id)} />
+              <FavoriteButton postId={Number(id)} />
+            </>
+          }
+        />
+
+        <ScrollView showsVerticalScrollIndicator={false} className='flex-1'>
+          <PreviewedImage
+            url={data?.coverUrl}
+            imageClassName='w-full bg-gray-100'
+            style={{ height: imageHeight }}
+            resizeMode='cover'
           />
 
-          <ScrollView showsVerticalScrollIndicator={false} className='flex-1'>
-            <PreviewedImage
-              url={data?.coverUrl}
-              imageClassName='w-full bg-gray-100'
-              style={{ height: imageHeight }}
-              resizeMode='cover'
+          <View className='m-4 space-y-4'>
+            <Text className='font-bold'>{data?.title}</Text>
+            <Text>{data?.content}</Text>
+
+            {Array.isArray(data?.tags) && data?.tags.length > 0 && (
+              <View className='flex flex-row flex-wrap space-x-2'>
+                {data?.tags?.map((tag) => <Text key={tag} className='text-xs text-gray-500'>{`#${tag}`}</Text>)}
+              </View>
+            )}
+
+            <Text className='text-xs text-gray-500'>{dayjs(data?.createdAt).fromNow()}</Text>
+          </View>
+
+          <View className='m-4 flex flex-row items-center'>
+            <Image
+              className='h-8 w-8 rounded-full'
+              source={data?.author.avatar}
+              placeholder={{ blurhash: IMAGE_BLURHASH }}
+              cachePolicy='memory-disk'
             />
 
-            <View className='m-4 space-y-4'>
-              <Text className='font-bold'>{data?.title}</Text>
-              <Text>{data?.content}</Text>
-              <Text className='text-xs text-gray-500'>{dayjs(data?.createdAt).fromNow()}</Text>
-            </View>
-
-            <View className='m-4 flex flex-row items-center'>
-              <Image
-                className='h-8 w-8 rounded-full'
-                source={data?.author.avatar}
-                placeholder={{ blurhash: IMAGE_BLURHASH }}
-                cachePolicy='memory-disk'
-              />
-
-              <Text className='ml-2 truncate'>{data?.author.name}</Text>
-            </View>
-          </ScrollView>
-        </View>
+            <Text className='ml-2 truncate'>{data?.author.name}</Text>
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </>
   )

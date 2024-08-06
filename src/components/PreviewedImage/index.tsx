@@ -8,7 +8,7 @@ import ImageView from '@erosargsyan/react-native-image-viewing'
 import { useQuery } from '@tanstack/react-query'
 import * as FileSystem from 'expo-file-system'
 import { useState } from 'react'
-import { Image, ImageProps, Pressable } from 'react-native'
+import { ActivityIndicator, Image, ImageProps, Pressable } from 'react-native'
 
 export type PreviewedImageProps = ImageProps & {
   url?: string
@@ -17,7 +17,7 @@ export type PreviewedImageProps = ImageProps & {
 
 export default function PreviewedImage(props: PreviewedImageProps) {
   const [visible, setVisible] = useState(false)
-  const { data: cachedImageUrl } = useQuery({
+  const { data: cachedImageUrl, isSuccess } = useQuery({
     enabled: !!props.url,
     queryKey: ['cached-image', props.url],
     queryFn: () => getCachedImage(props.url || ''),
@@ -25,13 +25,17 @@ export default function PreviewedImage(props: PreviewedImageProps) {
 
   return (
     <>
-      <Pressable onPress={() => setVisible(true)}>
+      <Pressable className='relative' onPress={() => isSuccess && setVisible(true)}>
         <Image
           source={{ uri: cachedImageUrl }}
           className={props.imageClassName}
           style={props.style}
           resizeMode='cover'
         />
+
+        {!cachedImageUrl && (
+          <ActivityIndicator className='absolute bottom-0 left-0 right-0 top-0 items-center justify-center' />
+        )}
       </Pressable>
 
       <ImageView

@@ -26,7 +26,7 @@ export default function TabLayout() {
               onPress={() => tabBarProps.navigation.navigate(t.href)}
             >
               {t.icon}
-              <Text className='mt-1 text-xs text-gray-900'>{t.title}</Text>
+              <Text className='text-xs text-gray-900'>{t.title}</Text>
             </Pressable>
           ))}
         </View>

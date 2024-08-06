@@ -11,7 +11,7 @@ import { useSetToken } from '@/stores/useToken'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { Pressable, Text, TextInput, View } from 'react-native'
+import { Pressable, SafeAreaView, Text, TextInput, View } from 'react-native'
 import CryptoJS from 'react-native-crypto-js'
 
 export default function LoginModal() {
@@ -48,7 +48,7 @@ export default function LoginModal() {
   }
 
   return (
-    <>
+    <SafeAreaView className='h-full bg-white'>
       <ModalHeader title='登录' message='登录 Fleurs 账号' />
 
       <View className='m-4'>
@@ -75,6 +75,6 @@ export default function LoginModal() {
           <Text className='text-center text-white'>登录</Text>
         </Pressable>
       </View>
-    </>
+    </SafeAreaView>
   )
 }
