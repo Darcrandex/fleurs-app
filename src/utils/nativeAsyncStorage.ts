@@ -13,10 +13,11 @@ export const nativeAsyncStorage: AsyncStorage<any> = {
   // 为了支持 api，当 value 为 undefined 时，需要删除 key
   setItem: async (key: string, value: any) => {
     if (typeof value === 'undefined' || value === null) {
-      return NativeAsyncStorage.removeItem(key)
+      NativeAsyncStorage.removeItem(key)
     } else {
       NativeAsyncStorage.setItem(key, value)
     }
   },
+
   removeItem: async (key: string) => NativeAsyncStorage.removeItem(key),
 }

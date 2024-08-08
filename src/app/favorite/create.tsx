@@ -9,10 +9,11 @@ import { useNavigationOptions } from '@/hooks/useNavigationOptions'
 import { USER_PROFILE_KEY } from '@/queries/useProfile'
 import { favoriteService } from '@/services/favorite'
 import UButton from '@/ui/UButton'
+import UInput from '@/ui/UInput'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import { useState } from 'react'
-import { SafeAreaView, TextInput } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 
 export default function FavoriteCreate() {
   useNavigationOptions({ headerShown: false, presentation: 'modal' })
@@ -32,17 +33,13 @@ export default function FavoriteCreate() {
     <SafeAreaView className='h-full bg-white'>
       <ModalHeader title='新建收藏夹' />
 
-      <TextInput
-        className='m-4 rounded bg-gray-100 p-2 text-sm'
-        placeholder='收藏夹名称'
-        maxLength={20}
-        value={name}
-        onChangeText={setName}
-      />
+      <View className='m-4'>
+        <UInput placeholder='收藏夹名称' maxLength={20} value={name} onChangeText={setName} />
 
-      <UButton variant='primary' wrapperClassName='mt-4 mx-4' onPress={() => updateMutation.mutate(name)}>
-        确定
-      </UButton>
+        <UButton variant='primary' wrapperClassName='mt-4' onPress={() => updateMutation.mutate(name)}>
+          确定
+        </UButton>
+      </View>
     </SafeAreaView>
   )
 }

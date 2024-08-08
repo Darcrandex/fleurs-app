@@ -8,10 +8,12 @@ import ModalHeader from '@/components/ModalHeader'
 import { useNavigationOptions } from '@/hooks/useNavigationOptions'
 import { authService } from '@/services/auth'
 import { useSetToken } from '@/stores/useToken'
+import UButton from '@/ui/UButton'
+import UInput from '@/ui/UInput'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { Pressable, SafeAreaView, Text, TextInput, View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import CryptoJS from 'react-native-crypto-js'
 
 export default function LoginModal() {
@@ -51,9 +53,8 @@ export default function LoginModal() {
     <SafeAreaView className='h-full bg-white'>
       <ModalHeader title='登录' message='登录 Fleurs 账号' />
 
-      <View className='m-4'>
-        <TextInput
-          className='my-2 rounded bg-gray-100 p-2'
+      <View className='m-4 space-y-2'>
+        <UInput
           textContentType='emailAddress'
           value={formData.email}
           placeholder='邮箱地址'
@@ -61,8 +62,7 @@ export default function LoginModal() {
           onChangeText={(text) => setFormData({ ...formData, email: text })}
         />
 
-        <TextInput
-          className='my-2 rounded bg-gray-100 p-2'
+        <UInput
           textContentType='password'
           value={formData.password}
           placeholder='密码'
@@ -71,9 +71,9 @@ export default function LoginModal() {
           onChangeText={(text) => setFormData({ ...formData, password: text })}
         />
 
-        <Pressable className='my-2 rounded bg-violet-500 p-2' onPress={onSubmit}>
-          <Text className='text-center text-white'>登录</Text>
-        </Pressable>
+        <UButton variant='primary' wrapperClassName='mt-4' onPress={onSubmit}>
+          登录
+        </UButton>
       </View>
     </SafeAreaView>
   )

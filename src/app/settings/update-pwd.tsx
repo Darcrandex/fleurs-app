@@ -9,10 +9,11 @@ import { useNavigationOptions } from '@/hooks/useNavigationOptions'
 import { authService } from '@/services/auth'
 import { useSetToken } from '@/stores/useToken'
 import UButton from '@/ui/UButton'
+import UInput from '@/ui/UInput'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import { useState } from 'react'
-import { SafeAreaView, TextInput, View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import CryptoJS from 'react-native-crypto-js'
 
 export default function UpdatePassword() {
@@ -57,9 +58,8 @@ export default function UpdatePassword() {
     <SafeAreaView className='h-screen bg-white'>
       <TopHeader title='修改密码' />
 
-      <View className='m-4'>
-        <TextInput
-          className='my-2 rounded bg-gray-100 p-2'
+      <View className='m-4 space-y-2'>
+        <UInput
           textContentType='password'
           value={formData.oldPassword}
           placeholder='旧密码'
@@ -68,8 +68,7 @@ export default function UpdatePassword() {
           onChangeText={(text) => setFormData({ ...formData, oldPassword: text })}
         />
 
-        <TextInput
-          className='my-2 rounded bg-gray-100 p-2'
+        <UInput
           textContentType='password'
           value={formData.newPassword}
           placeholder='新密码'
@@ -78,8 +77,7 @@ export default function UpdatePassword() {
           onChangeText={(text) => setFormData({ ...formData, newPassword: text })}
         />
 
-        <TextInput
-          className='my-2 rounded bg-gray-100 p-2'
+        <UInput
           textContentType='password'
           value={formData.confirmPassword}
           placeholder='确认新密码'

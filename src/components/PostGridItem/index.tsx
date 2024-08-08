@@ -1,6 +1,6 @@
 /**
  * @name PostGridItem
- * @description
+ * @description 帖子瀑布流列表-帖子卡片
  * @author darcrand
  */
 

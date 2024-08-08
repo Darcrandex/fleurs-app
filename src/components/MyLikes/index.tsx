@@ -1,6 +1,6 @@
 /**
  * @name MyLikes
- * @description
+ * @description 我的点赞
  * @author darcrand
  */
 

@@ -1,6 +1,6 @@
 /**
  * @name ModalHeader
- * @description
+ * @description 所有的弹框头部
  * @author darcrand
  */
 

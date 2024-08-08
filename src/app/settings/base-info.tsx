@@ -11,12 +11,13 @@ import { useProfile, USER_PROFILE_KEY } from '@/queries/useProfile'
 import { authService } from '@/services/auth'
 import { ossService } from '@/services/oss'
 import UButton from '@/ui/UButton'
+import UInput from '@/ui/UInput'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Image } from 'expo-image'
 import * as ImagePicker from 'expo-image-picker'
 import { router } from 'expo-router'
 import { useState } from 'react'
-import { Pressable, SafeAreaView, Text, TextInput, View } from 'react-native'
+import { Pressable, SafeAreaView, Text, View } from 'react-native'
 
 export default function BaseInfo() {
   const queryClient = useQueryClient()
@@ -88,8 +89,8 @@ export default function BaseInfo() {
           <Text className='mt-2 text-gray-500'>点击选择图片</Text>
         </Pressable>
 
-        <TextInput
-          className='mt-4 rounded bg-gray-100 p-2'
+        <UInput
+          wrapperClassName='mt-4'
           placeholder='昵称'
           maxLength={20}
           value={values.name}
